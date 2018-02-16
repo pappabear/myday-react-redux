@@ -1,23 +1,14 @@
 {
-  "name": "minimal-react-webpack",
+  "name": "MyDay",
   "version": "1.0.0",
-  "description": "A minimal React Webpack project to get you started",
+  "description": "MyDay in React, Redux, Thunk, and Material-UI, connecting to a Node RESTful API",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server --open"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/valentinogagliardi/minimal-react-webpack.git"
-  },
-  "keywords": [],
-  "author": "",
+  "author": "Chip Irek",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/valentinogagliardi/minimal-react-webpack/issues"
-  },
-  "homepage": "https://github.com/valentinogagliardi/minimal-react-webpack#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

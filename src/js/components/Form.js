@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
-import { addArticle } from "../actions/index";
+import { addTask } from "../actions/index";
 
 const mapDispatchToProps = dispatch => {
   return {
-    addArticle: article => dispatch(addArticle(article))
+    addTask: task => dispatch(addTask(task))
   };
 };
 
@@ -28,9 +28,9 @@ class ConnectedForm extends Component {
     event.preventDefault();
     const { title } = this.state;
     const id = uuidv1();
-	console.log("id=" + id);
-	console.log("title=" + title);
-    this.props.addArticle({ title, id });
+	  //console.log("id=" + id);
+	  //console.log("title=" + title);
+    this.props.addTask({ title, id });
     this.setState({ title: "" });
   }
 

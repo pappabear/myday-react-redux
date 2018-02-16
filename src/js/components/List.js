@@ -1,27 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { articlesFetchData } from '../actions';
+import { tasksFetchData } from '../actions';
 
 const mapStateToProps = state => {
-	console.log('List->mapStateToProps->state.articles = ' + state.articles.length);
-	console.log('List->mapStateToProps->state = ' + state.length);
-  	return { articles: state.articles };
+	//console.log('List->mapStateToProps->state.articles = ' + state.articles.length);
+	//console.log('List->mapStateToProps->state = ' + state.length);
+  	return { tasks: state.tasks };
 };
-
-//const ConnectedList = ({ articles }) => (
-//  <ul className="list-group list-group-flush">
-//    {articles.map(el => (
-//      <li className="list-group-item" key={el.id}>
-//        {el.title}
-//      </li>
-//    ))}
-//  </ul>
-//);
 
 class List extends Component {
 	
     componentDidMount() {
-		console.log('List->componentDidMount->props.articles = ' + this.props.articles.length);
+		//console.log('List->componentDidMount->props.articles = ' + this.props.articles.length);
         this.props.fetchData();
     }
 
@@ -36,7 +26,7 @@ class List extends Component {
 
         return (
 			<ul className="list-group list-group-flush">
-			    {this.props.articles.map(el => (
+			    {this.props.tasks.map(el => (
 			      <li className="list-group-item" key={el.id}>
 			        {el.title}
 			      </li>
@@ -48,7 +38,7 @@ class List extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchData: () => dispatch(articlesFetchData())
+        fetchData: () => dispatch(tasksFetchData())
     };
 };
 

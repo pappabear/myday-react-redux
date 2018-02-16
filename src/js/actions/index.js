@@ -1,38 +1,33 @@
-//export const addArticle = article => (
-//	console.log('Put your addArticle API call here stupid')
-//	return { type: "ADD_ARTICLE", payload: article }
-//);
-
-export function addArticle(article) {
-	console.log('Put your addArticle API call here')
-	console.log("id=" + article.id);
-	console.log("title=" + article.title);
+export function addTask(task) {
+	//console.log('Put your addArticle API call here')
+	//console.log("id=" + article.id);
+	//console.log("title=" + article.title);
     return {
-        type: 'ADD_ARTICLE',
-        payload: article
+        type: 'ADD_TASK',
+        payload: task
     };
 }
 
-export function articlesFetchDataSuccess(articles) {
+export function tasksFetchDataSuccess(tasks) {
     return {
-        type: 'ARTICLES_FETCH_DATA_SUCCESS',
-        articles
+        type: 'TASKS_FETCH_DATA_SUCCESS',
+        tasks
     };
 }
 
-export function articlesFetchData() {
-	console.log('Put your articlesFetchData() API call here, since its connected and thunked')
+export function tasksFetchData() {
+	//console.log('Put your articlesFetchData() API call here, since its connected and thunked')
 	    return (dispatch) => {
-			var articles = [
+			var tasks = [
 		        {
 		            id: '1',
-		            title: 'Article 1'
+		            title: 'task one'
 		        },
 		        {
 		            id: '2',
-		            title: 'Article 2'
+		            title: 'task two'
 		        }
 			];			
-			dispatch(articlesFetchDataSuccess(articles));
+			dispatch(tasksFetchDataSuccess(tasks));
 		};
 }
