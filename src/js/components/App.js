@@ -1,10 +1,12 @@
 import React from "react";
-import List from "./List";
+import Tasklist from "./Tasklist";
 import Form from "./Form";
 import MDemo from './MDemo';
 import Header from './Header';
 import LeftDrawer from '../components/LeftDrawer';
 import withWidth, {LARGE, SMALL} from 'material-ui/utils/withWidth';
+import Paper from 'material-ui/Paper';
+import globalStyles from '../globalStyles';
 
 class App extends React.Component {
 
@@ -62,7 +64,15 @@ class App extends React.Component {
               menus={data.menus}
             />
 
-            <MDemo />
+            <div style={styles.container}>
+              <Paper style={globalStyles.paper}>
+                <Tasklist />
+                <Form />
+                <MDemo />
+                <div style={globalStyles.clear}/>
+              </Paper>
+
+            </div>
 
         </div>
       
@@ -70,4 +80,5 @@ class App extends React.Component {
   }
 }
 
-export default App;
+//export default App;
+export default withWidth()(App);
