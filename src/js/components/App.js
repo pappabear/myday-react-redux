@@ -32,13 +32,6 @@ class App extends React.Component {
 
   render() {
 
-    const data = {
-      menus: [
-        { text: 'Today', link: '/ListPage?dt=2018-02-01' },
-        { text: 'Tomorrow', link: '/ListPage?dt=2018-02-03' },
-      ],
-    }
-
     let { navDrawerOpen } = this.state;
     const paddingLeftDrawerOpen = 236;
 
@@ -61,7 +54,6 @@ class App extends React.Component {
 
             <LeftDrawer 
               navDrawerOpen={navDrawerOpen}
-              menus={data.menus}
             />
 
             <div style={styles.container}>

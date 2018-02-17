@@ -5,6 +5,8 @@ import {white, blue600} from 'material-ui/styles/colors';
 import MenuItem from 'material-ui/MenuItem';
 //import {Link} from 'react-router';
 //import Avatar from 'material-ui/Avatar';
+import DatePicker from 'material-ui/DatePicker';
+import Divider from 'material-ui/Divider';
 
 const LeftDrawer = (props) => {
   let { navDrawerOpen } = props;
@@ -21,6 +23,10 @@ const LeftDrawer = (props) => {
       height: 56,
     },
     menuItem: {
+      color: white,
+      fontSize: 14
+    },
+    datePickerPlaceholder: {
       color: white,
       fontSize: 14
     },
@@ -46,6 +52,32 @@ const LeftDrawer = (props) => {
     }
   };
 
+  var today = new Date(); 
+    
+  var todayPlus2 = new Date();
+  todayPlus2.setDate(today.getDate() + 2);
+  var todayPlus2Url = getDateStringAndDow(todayPlus2).url;
+  var todayPlus2Dow = getDateStringAndDow(todayPlus2).dow;
+  
+  var todayPlus3 = new Date();
+  todayPlus3.setDate(today.getDate() + 3);
+  var todayPlus3Url = getDateStringAndDow(todayPlus3).url;
+  var todayPlus3Dow = getDateStringAndDow(todayPlus3).dow;
+
+  var todayPlus4 = new Date();
+  todayPlus4.setDate(today.getDate() + 4);
+  var todayPlus4Url = getDateStringAndDow(todayPlus4).url;
+  var todayPlus4Dow = getDateStringAndDow(todayPlus4).dow;
+
+  const menus = [
+      { text: 'Today', link: '/ListPage?dt=2018-02-01' },
+      { text: 'Tomorrow', link: '/ListPage?dt=2018-02-03' },
+      { text: todayPlus2Dow, link: '/ListPage?dt='+todayPlus2Url },
+      { text: todayPlus3Dow, link: '/ListPage?dt='+todayPlus3Url },
+      { text: todayPlus4Dow, link: '/ListPage?dt='+todayPlus4Url }
+  ]
+  
+
   return (
     <Drawer
       docked={true}
@@ -56,7 +88,7 @@ const LeftDrawer = (props) => {
           <span style={styles.avatar.span}>MANAGE YOUR TIME</span>
         </div>
         <div>
-          {props.menus.map((menu, index) =>
+          {menus.map((menu, index) =>
             <MenuItem
               key={index}
               style={styles.menuItem}
@@ -66,8 +98,35 @@ const LeftDrawer = (props) => {
             />
           )}
         </div>
+
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <MenuItem
+              key={999}
+              style={styles.menuItem}
+              >
+                <DatePicker style={styles.datePickerPlaceholder}
+                            hintText="Or, choose a specific date" 
+                            hintStyle={{color:'grey'}}
+                            inputStyle={{color: 'grey'}}
+                            container="inline"
+                            locale={'en-US'} 
+                            autoOk={true}
+                            mode="landscape" />
+            </MenuItem>
+
     </Drawer>
   );
 };
+
+function getDateStringAndDow(d) {
+  var dd = d.getDate(); 
+  var mm = d.getMonth()+1; //January is 0! 
+  var yyyy = d.getFullYear(); 
+  if (dd<10) { dd='0'+dd; } 
+  if (mm<10) { mm='0'+mm; }
+  return { url: yyyy+'-'+mm+'-'+dd, dow: d.toLocaleDateString('us-EN', { weekday: 'long' }) } ;
+}
 
 export default LeftDrawer;
