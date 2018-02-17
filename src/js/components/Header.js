@@ -12,7 +12,7 @@ import {white} from 'material-ui/styles/colors';
 class Header extends Component {
 
   render() {
-    //const {styles, handleChangeRequestNavDrawer} = this.props;
+    const {styles, handleChangeRequestNavDrawer} = this.props;
 
     const style = {
       appBar: {
@@ -32,11 +32,10 @@ class Header extends Component {
     return (
         <div>
             <AppBar
-              //style={{...styles, ...style.appBar}}
-              style={{...style.appBar}}
+              style={{...styles, ...style.appBar}}
               title={"My Day"}
               iconElementLeft={
-                  <IconButton style={style.menuButton} >
+                  <IconButton style={style.menuButton}onClick={handleChangeRequestNavDrawer} >
                     <Menu color={white} />
                   </IconButton>
               }
