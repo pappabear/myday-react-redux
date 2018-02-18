@@ -3,7 +3,7 @@ import Drawer from 'material-ui/Drawer';
 import {spacing, typography} from 'material-ui/styles';
 import {white, blue600} from 'material-ui/styles/colors';
 import MenuItem from 'material-ui/MenuItem';
-//import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 //import Avatar from 'material-ui/Avatar';
 import DatePicker from 'material-ui/DatePicker';
 import Divider from 'material-ui/Divider';
@@ -70,11 +70,11 @@ const LeftDrawer = (props) => {
   var todayPlus4Dow = getDateStringAndDow(todayPlus4).dow;
 
   const menus = [
-      { text: 'Today', link: '/ListPage?dt=2018-02-01' },
-      { text: 'Tomorrow', link: '/ListPage?dt=2018-02-03' },
-      { text: todayPlus2Dow, link: '/ListPage?dt='+todayPlus2Url },
-      { text: todayPlus3Dow, link: '/ListPage?dt='+todayPlus3Url },
-      { text: todayPlus4Dow, link: '/ListPage?dt='+todayPlus4Url }
+      { text: 'Today', link: '/Tasklist?dt=2018-02-01' },
+      { text: 'Tomorrow', link: '/Tasklist?dt=2018-02-03' },
+      { text: todayPlus2Dow, link: '/Tasklist?dt='+todayPlus2Url },
+      { text: todayPlus3Dow, link: '/Tasklist?dt='+todayPlus3Url },
+      { text: todayPlus4Dow, link: '/Tasklist?dt='+todayPlus4Url }
   ]
   
 
@@ -94,7 +94,7 @@ const LeftDrawer = (props) => {
               style={styles.menuItem}
               primaryText={menu.text}
               leftIcon={menu.icon}
-              //containerElement={<Link to={menu.link}/>}
+              containerElement={<Link to={menu.link}/>}
             />
           )}
         </div>

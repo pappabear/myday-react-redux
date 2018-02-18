@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-//import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -46,7 +46,7 @@ class Header extends Component {
                             targetOrigin={{horizontal: 'right', vertical: 'top'}}
                             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                   >
-                    <MenuItem primaryText="Sign out" containerElement={"router?"}/>
+                    <MenuItem primaryText="Sign out" containerElement={<Link to="/login"/>}/>
                   </IconMenu>
                 </div>
               }

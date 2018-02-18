@@ -1,7 +1,7 @@
 import React from "react";
-import Tasklist from "./Tasklist";
-import Form from "./Form";
-import MDemo from './MDemo';
+//import Tasklist from "./Tasklist";
+//import Form from "./Form";
+import Main from './Main';
 import Header from './Header';
 import LeftDrawer from '../components/LeftDrawer';
 import withWidth, {LARGE, SMALL} from 'material-ui/utils/withWidth';
@@ -58,9 +58,7 @@ class App extends React.Component {
 
             <div style={styles.container}>
               <Paper style={globalStyles.paper}>
-                <Tasklist />
-                <p>&nbsp;</p>
-                <MDemo />
+                <Main />
                 <div style={globalStyles.clear}/>
               </Paper>
 

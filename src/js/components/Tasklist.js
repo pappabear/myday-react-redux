@@ -24,11 +24,19 @@ const mapStateToProps = state => {
 class Tasklist extends Component {
 	
     componentDidMount() {
+        console.log('componentDidMount');
 		//console.log('List->componentDidMount->props.articles = ' + this.props.articles.length);
         this.props.fetchData();
     }
 
     render() {
+
+        const queryString = require('query-string');
+ 
+        //console.log("props.location.search=" + this.props.location.search);
+        const parsed = queryString.parse(this.props.location.search);
+        console.log("parsed.dt=" + parsed.dt);
+        const pageTitle = parsed.dt;
 
         if (this.props.hasErrored) {
             return <p>Sorry! There was an error loading the items</p>;
@@ -67,7 +75,7 @@ class Tasklist extends Component {
       
         return (
             <div>
-                <h3 style={globalStyles.title}>Today</h3>
+                <h3 style={globalStyles.title}>{pageTitle}</h3>
 
                 <List>
                 {this.props.tasks.map(task =>
