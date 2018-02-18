@@ -1,4 +1,4 @@
-# MyDay in React, Redux, Thunk, and Material-UI, connecting to a Node RESTful API
+# MyDay in React, Redux, Thunk, and Material-UI, connecting to a RESTful Node API backend
 
 Inspired by:
 

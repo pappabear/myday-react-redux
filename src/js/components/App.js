@@ -59,7 +59,7 @@ class App extends React.Component {
             <div style={styles.container}>
               <Paper style={globalStyles.paper}>
                 <Tasklist />
-                <Form />
+                <p>&nbsp;</p>
                 <MDemo />
                 <div style={globalStyles.clear}/>
               </Paper>

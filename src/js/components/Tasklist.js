@@ -13,6 +13,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import withWidth from 'material-ui/utils/withWidth';
 import globalStyles from '../globalStyles';
+import QuickAddForm from './QuickAddForm';
 
 const mapStateToProps = state => {
 	//console.log('List->mapStateToProps->state.articles = ' + state.articles.length);
@@ -67,7 +68,6 @@ class Tasklist extends Component {
         return (
             <div>
                 <h3 style={globalStyles.title}>Today</h3>
-                <Divider/>
 
                 <List>
                 {this.props.tasks.map(task =>
@@ -87,6 +87,13 @@ class Tasklist extends Component {
                 </div>
                 )}
                 </List>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <Divider />
+                <QuickAddForm />
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
                 <div>
                     <div>add + button</div>
                 </div>
