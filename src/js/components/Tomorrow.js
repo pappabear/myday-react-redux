@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { tasksFetchData } from '../actions';
+import { tasksFetchTomorrowData } from '../actions';
 import Checkbox from 'material-ui/Checkbox';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -23,23 +23,13 @@ const mapStateToProps = state => {
         };
 };
 
-class Tasklist extends Component {
+class Tomorrow extends Component {
 	
     componentDidMount() {
-        //const queryString = require('query-string');
-        //const parsed = queryString.parse(this.props.location.search);
-        console.log("this.props.match.params.dt=" + this.props.match.params.dt);
-        this.props.fetchData(this.props.match.params.dt);
+        this.props.fetchTomorrowTasks();
     }
 
     render() {
-
-        //const queryString = require('query-string');
- 
-        //const parsed = queryString.parse(this.props.location.search);
-        //console.log("Tasklist render() ==> parsed.dt=" + parsed.dt);
-        console.log("this.props.match.params.dt=" + this.props.match.params.dt);
-        const pageTitle = this.props.match.params.dt;
 
         if (this.props.hasErrored) {
             return <p>Sorry! There was an error loading the items</p>;
@@ -76,9 +66,11 @@ class Tasklist extends Component {
             </IconMenu>
           );
       
-        return (
+        
+          return (
             <div>
-                <h3 style={globalStyles.title}>{pageTitle}</h3>
+                
+                <h1>Tomorrow</h1>
 
                 <List>
                 {this.props.tasks.map(task =>
@@ -114,9 +106,9 @@ class Tasklist extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchData: (searchDate) => dispatch(tasksFetchData(searchDate))
+        fetchTomorrowTasks: () => dispatch(tasksFetchTomorrowData())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tasklist);
+export default connect(mapStateToProps, mapDispatchToProps)(Tomorrow);
 

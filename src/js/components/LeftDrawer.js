@@ -52,6 +52,7 @@ const LeftDrawer = (props) => {
     }
   };
 
+  /*
   var today = new Date(); 
     
   var todayPlus2 = new Date();
@@ -68,13 +69,15 @@ const LeftDrawer = (props) => {
   todayPlus4.setDate(today.getDate() + 4);
   var todayPlus4Url = getDateStringAndDow(todayPlus4).url;
   var todayPlus4Dow = getDateStringAndDow(todayPlus4).dow;
+  */
 
   const menus = [
-      { text: 'Today', link: '/Tasklist?dt=2018-02-01' },
-      { text: 'Tomorrow', link: '/Tasklist?dt=2018-02-03' },
-      { text: todayPlus2Dow, link: '/Tasklist?dt='+todayPlus2Url },
-      { text: todayPlus3Dow, link: '/Tasklist?dt='+todayPlus3Url },
-      { text: todayPlus4Dow, link: '/Tasklist?dt='+todayPlus4Url }
+    { text: 'Home', link: '/' },  
+    { text: 'Today', link: '/today' },
+    { text: 'Tomorrow', link: '/tomorrow' },
+    { text: 'Form', link: '/form' },
+      //{ text: todayPlus3Dow, link: '/Tasklist?dt='+todayPlus3Url },
+      //{ text: todayPlus4Dow, link: '/Tasklist?dt='+todayPlus4Url }
   ]
   
 
@@ -120,6 +123,7 @@ const LeftDrawer = (props) => {
   );
 };
 
+/*
 function getDateStringAndDow(d) {
   var dd = d.getDate(); 
   var mm = d.getMonth()+1; //January is 0! 
@@ -128,5 +132,6 @@ function getDateStringAndDow(d) {
   if (mm<10) { mm='0'+mm; }
   return { url: yyyy+'-'+mm+'-'+dd, dow: d.toLocaleDateString('us-EN', { weekday: 'long' }) } ;
 }
+*/
 
 export default LeftDrawer;

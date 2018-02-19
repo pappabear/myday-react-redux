@@ -1,8 +1,11 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import Tasklist from './Tasklist'
+//import Tasklist from './Tasklist'
 import LoginPage from './LoginPage'
 import Form from './Form'
+import Home from './Home'
+import Today from './Today'
+import Tomorrow from './Tomorrow'
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -12,10 +15,11 @@ import Form from './Form'
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path='/' component={Tasklist}/>
+      <Route exact path='/' component={Home}/>
       <Route path='/login' component={LoginPage}/>
       <Route path='/form' component={Form}/>
-      <Route path='/Tasklist' component={Tasklist}/>
+      <Route path='/today' component={Today}/>
+      <Route path='/tomorrow' component={Tomorrow}/>
     </Switch>
   </main>
 )

@@ -24,9 +24,6 @@ export function tasks(state = [], action) {
             return action.tasks;
 
 	    case 'ADD_TASK':
-			//console.log('inside reducer with ADD_ARTICLE');
-			//console.log('action.payload.title=' + action.payload.title);
-			//console.log('state.length (before thunk) = ' + state.length);
 			return [...state, action.payload];
 
         default:
