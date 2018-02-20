@@ -1,3 +1,5 @@
+import request from 'superagent'
+
 export function tasksHasErrored(bool) {
     return {
         type: 'TASKS_HAS_ERRORED',
@@ -27,42 +29,45 @@ export function tasksFetchDataSuccess(tasks) {
     };
 }
 
+
 export function tasksFetchTodayData() {
-	//console.log('Put your articlesFetchData() API call here, since its connected and thunked')
 	return (dispatch) => {
         dispatch(tasksIsLoading(true));
-		var tasks = [
-			{
-				id: '1',
-				title: 'due today one'
-			},
-			{
-				id: '2',
-				title: 'due today two'
+
+		request
+		.get('http://localhost:3000/api/today')
+		.end((err, res) => {
+			if (err) {
+				dispatch(tasksHasErrored(true));
 			}
-		];			
-		dispatch(tasksIsLoading(false));
-		dispatch(tasksFetchDataSuccess(tasks));
+	  
+			const resultText = JSON.parse(res.text)
+			const tasks = resultText.data
+
+			dispatch(tasksIsLoading(false));
+			dispatch(tasksFetchDataSuccess(tasks));
+			})
 	}
-	//return (dispatch) => {dispatch(tasksFetchDataSuccess(tasks));};
 }
 
+
 export function tasksFetchTomorrowData() {
-	//console.log('Put your articlesFetchData() API call here, since its connected and thunked')
 	return (dispatch) => {
         dispatch(tasksIsLoading(true));
-		var tasks = [
-			{
-				id: '1',
-				title: 'due tomorrow one'
-			},
-			{
-				id: '2',
-				title: 'due tomorrow two'
+
+		request
+		.get('http://localhost:3000/api/tomorrow')
+		.end((err, res) => {
+			if (err) {
+				dispatch(tasksHasErrored(true));
 			}
-		];			
-		dispatch(tasksIsLoading(false));
-		dispatch(tasksFetchDataSuccess(tasks));
+	  
+			const resultText = JSON.parse(res.text)
+			const tasks = resultText.data
+
+			dispatch(tasksIsLoading(false));
+			dispatch(tasksFetchDataSuccess(tasks));
+			})
+	
 	}
-	//return (dispatch) => {dispatch(tasksFetchDataSuccess(tasks));};
 }

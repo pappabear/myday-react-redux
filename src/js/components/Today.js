@@ -79,7 +79,7 @@ class Today extends Component {
                             righticonbutton={rightIconMenu}
                             >
                             <Checkbox
-                                label={task.title}
+                                label={task.subject}
                                 //checked={task.is_complete}
                                 style={styles.checkbox}
                                 righticonbutton={rightIconMenu}
