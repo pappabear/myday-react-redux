@@ -13,10 +13,10 @@ const mapDispatchToProps = dispatch => {
 
 class ConnectedForm extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      title: ""
+      subject: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,17 +28,16 @@ class ConnectedForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { title } = this.state;
+    const { subject } = this.state;
     const id = uuidv1();
-	  //console.log("id=" + id);
-	  //console.log("title=" + title);
-    this.props.addTask({ title, id });
-    this.setState({ title: "" });
+    var task = {subject:subject, due_date:this.props.workingDate, id:id, is_complete:false };
+    this.props.addTask(task);
+    this.setState({ subject: "" });
   }
 
   render() {
 
-    const { title } = this.state;
+    const { subject } = this.state;
 
     const style = {
       margin: 12,
@@ -49,9 +48,9 @@ class ConnectedForm extends Component {
         <div>
           <TextField
               hintText="Quickly add a task here"
-              id={'title'}
-              name={'title'}
-              value={title}
+              id={'subject'}
+              name={'subject'}
+              value={subject}
               onChange={this.handleChange}
           />
           <RaisedButton 

@@ -52,32 +52,12 @@ const LeftDrawer = (props) => {
     }
   };
 
-  /*
-  var today = new Date(); 
-    
-  var todayPlus2 = new Date();
-  todayPlus2.setDate(today.getDate() + 2);
-  var todayPlus2Url = getDateStringAndDow(todayPlus2).url;
-  var todayPlus2Dow = getDateStringAndDow(todayPlus2).dow;
-  
-  var todayPlus3 = new Date();
-  todayPlus3.setDate(today.getDate() + 3);
-  var todayPlus3Url = getDateStringAndDow(todayPlus3).url;
-  var todayPlus3Dow = getDateStringAndDow(todayPlus3).dow;
-
-  var todayPlus4 = new Date();
-  todayPlus4.setDate(today.getDate() + 4);
-  var todayPlus4Url = getDateStringAndDow(todayPlus4).url;
-  var todayPlus4Dow = getDateStringAndDow(todayPlus4).dow;
-  */
 
   const menus = [
     { text: 'Home', link: '/' },  
     { text: 'Today', link: '/today' },
     { text: 'Tomorrow', link: '/tomorrow' },
     { text: 'Form', link: '/form' },
-      //{ text: todayPlus3Dow, link: '/Tasklist?dt='+todayPlus3Url },
-      //{ text: todayPlus4Dow, link: '/Tasklist?dt='+todayPlus4Url }
   ]
   
 
@@ -122,16 +102,5 @@ const LeftDrawer = (props) => {
     </Drawer>
   );
 };
-
-/*
-function getDateStringAndDow(d) {
-  var dd = d.getDate(); 
-  var mm = d.getMonth()+1; //January is 0! 
-  var yyyy = d.getFullYear(); 
-  if (dd<10) { dd='0'+dd; } 
-  if (mm<10) { mm='0'+mm; }
-  return { url: yyyy+'-'+mm+'-'+dd, dow: d.toLocaleDateString('us-EN', { weekday: 'long' }) } ;
-}
-*/
 
 export default LeftDrawer;

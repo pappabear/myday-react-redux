@@ -31,6 +31,12 @@ class Today extends Component {
 
     render() {
 
+        var dateBuffer = new Date();
+        var dd = dateBuffer.getDate(); 
+        var mm = dateBuffer.getMonth()+1; //January is 0! 
+        var yyyy = dateBuffer.getFullYear(); 
+        var workingDate = yyyy + '-' + mm + '-' + dd;
+        
         if (this.props.hasErrored) {
             return <p>Sorry! There was an error loading the items</p>;
         }
@@ -93,7 +99,7 @@ class Today extends Component {
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
-                <QuickAddForm />
+                <QuickAddForm workingDate={workingDate} />
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
                 <div>
@@ -103,6 +109,7 @@ class Today extends Component {
         );
     }
 }
+
 
 const mapDispatchToProps = (dispatch) => {
     return {
