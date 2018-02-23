@@ -2,6 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addTask } from "../actions/index";
+import RaisedButton from 'material-ui/RaisedButton';
+import MenuItem from 'material-ui/MenuItem';
+import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import Toggle from 'material-ui/Toggle';
+import DatePicker from 'material-ui/DatePicker';
+import {grey400} from 'material-ui/styles/colors';
+import Divider from 'material-ui/Divider';
+import {Link} from 'react-router-dom';
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -35,24 +44,72 @@ class ConnectedForm extends Component {
   }
 
   render() {
+    
     const { title } = this.state;
+
+    const styles = {
+      toggleDiv: {
+        maxWidth: 300,
+        marginTop: 40,
+        marginBottom: 5
+      },
+      toggleLabel: {
+        color: grey400,
+        fontWeight: 100
+      },
+      buttons: {
+        marginTop: 30,
+        float: 'right'
+      },
+      saveButton: {
+        marginLeft: 5
+      }
+    };
+    
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            className="form-control"
-            id="title"
-            value={title}
-            onChange={this.handleChange}
+
+        <TextField
+          hintText="Name"
+          floatingLabelText="Name"
+          fullWidth={true}
+        />
+
+        <SelectField
+          floatingLabelText="City"
+          value=""
+          fullWidth={true}>
+          <MenuItem key={0} primaryText="London"/>
+          <MenuItem key={1} primaryText="Paris"/>
+          <MenuItem key={2} primaryText="Rome"/>
+        </SelectField>
+
+        <DatePicker
+          hintText="Expiration Date"
+          floatingLabelText="Expiration Date"
+          fullWidth={true}/>
+
+        <div style={styles.toggleDiv}>
+          <Toggle
+            label="Disabled"
+            labelStyle={styles.toggleLabel}
           />
         </div>
-        <button type="submit" className="btn btn-success btn-lg">
-          SAVE
-        </button>
-      </form>
-    );
+
+        <Divider/>
+
+        <div style={styles.buttons}>
+          <Link to="/">
+            <RaisedButton label="Cancel"/>
+          </Link>
+
+          <RaisedButton label="Save"
+                        style={styles.saveButton}
+                        type="submit"
+                        primary={true}/>
+        </div>
+      </form>    
+);
   }
 }
 
