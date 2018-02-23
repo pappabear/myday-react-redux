@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import {Link} from 'react-router-dom';
 //import Avatar from 'material-ui/Avatar';
 import DatePicker from 'material-ui/DatePicker';
-import Divider from 'material-ui/Divider';
+//import Divider from 'material-ui/Divider';
 
 const LeftDrawer = (props) => {
   let { navDrawerOpen } = props;

@@ -34,7 +34,7 @@ export function addTask(task) {
 		dd = dateBuffer.getDate(); 
         mm = dateBuffer.getMonth()+1; //January is 0! 
         yyyy = dateBuffer.getFullYear(); 
-        var tomorrowString = yyyy + '-' + mm + '-' + dd;
+        //var tomorrowString = yyyy + '-' + mm + '-' + dd;
 
 		request
 		.post('http://localhost:3000/api/tasks')
@@ -45,7 +45,7 @@ export function addTask(task) {
 			}
 	  
 			dispatch(tasksIsLoading(false));
-			if (task.due_date == todayString)
+			if (task.due_date === todayString)
 				dispatch(tasksFetchTodayData());
 			else
 				dispatch(tasksFetchTomorrowData());

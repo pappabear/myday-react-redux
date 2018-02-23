@@ -11,9 +11,10 @@ import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import withWidth from 'material-ui/utils/withWidth';
-import globalStyles from '../globalStyles';
+//import withWidth from 'material-ui/utils/withWidth';
+//import globalStyles from '../globalStyles';
 import QuickAddForm from './QuickAddForm';
+import {Link} from 'react-router-dom';
 
 const mapStateToProps = state => {
       return { 
@@ -104,7 +105,14 @@ class Tomorrow extends Component {
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
                 <div>
-                    <div>add + button</div>
+                    <Link to="/form" >
+                        <FloatingActionButton 
+                            style={styles.floatingActionButton} 
+                            backgroundColor={pink500}
+                            >
+                            <ContentAdd />
+                        </FloatingActionButton>
+                    </Link>
                 </div>
             </div>
         );
