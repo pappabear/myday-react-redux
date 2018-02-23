@@ -11,7 +11,7 @@ import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-//import withWidth from 'material-ui/utils/withWidth';
+import withWidth from 'material-ui/utils/withWidth';
 //import globalStyles from '../globalStyles';
 import QuickAddForm from './QuickAddForm';
 import {Link} from 'react-router-dom';
@@ -68,8 +68,8 @@ class Today extends Component {
         
           const rightIconMenu = (
             <IconMenu iconButtonElement={iconButtonElement}>
-              <MenuItem>Edit</MenuItem>
-              <MenuItem>Delete</MenuItem>
+              <MenuItem primaryText="Edit" containerElement={<Link to="/login"/>}/>
+              <MenuItem primaryText="Delete" containerElement={<Link to="/login"/>}/>
             </IconMenu>
           );
       
@@ -83,7 +83,7 @@ class Today extends Component {
                 {this.props.tasks.map(task =>
                 <div key={task.id}>
                         <ListItem 
-                            righticonbutton={rightIconMenu}
+                            rightIconButton={rightIconMenu}
                             >
                             <Checkbox
                                 label={task.subject}
@@ -125,5 +125,7 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Today);
+//export default connect(mapStateToProps, mapDispatchToProps)(Today);
+const componentCreator = connect(mapStateToProps, mapDispatchToProps);
+export default withWidth()(componentCreator(Today));
 
