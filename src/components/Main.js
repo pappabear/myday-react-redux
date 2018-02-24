@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 //import Tasklist from './Tasklist'
 import LoginPage from './LoginPage'
-import Form from './Form'
+import AddForm from './AddForm'
 import Home from './Home'
 import Today from './Today'
 import Tomorrow from './Tomorrow'
@@ -17,7 +17,7 @@ const Main = () => (
     <Switch>
       <Route exact path='/' component={Home}/>
       <Route path='/login' component={LoginPage}/>
-      <Route path='/form' component={Form}/>
+      <Route path='/new' component={AddForm}/>
       <Route path='/today' component={Today}/>
       <Route path='/tomorrow' component={Tomorrow}/>
     </Switch>

@@ -15,9 +15,10 @@ export function tasksIsLoading(bool) {
 }
 
 export function addTask(task) {
-	//console.log('in the action now...');
-	//console.log('subject=' + task.subject)
-	//console.log('dueDate=' + task.dueDate)
+	console.log('in the action now...')
+	console.log('subject=' + task.subject)
+	console.log('due_date=' + task.due_date)
+	console.log('is_complete=' + task.is_complete)
     //return {
     //    type: 'ADD_TASK',
     //    payload: task
@@ -41,9 +42,10 @@ export function addTask(task) {
 		.send(task)
 		.end((err, res) => {
 			if (err) {
+				console.log('API call failed')
 				dispatch(tasksHasErrored(true));
 			}
-	  
+			console.log('API call succeeded')
 			dispatch(tasksIsLoading(false));
 			if (task.due_date === todayString)
 				dispatch(tasksFetchTodayData());

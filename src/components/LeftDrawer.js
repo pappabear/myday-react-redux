@@ -57,7 +57,7 @@ const LeftDrawer = (props) => {
     { text: 'Home', link: '/' },  
     { text: 'Today', link: '/today' },
     { text: 'Tomorrow', link: '/tomorrow' },
-    { text: 'Form', link: '/form' },
+    { text: 'AddForm*', link: '/new' },
   ]
   
 

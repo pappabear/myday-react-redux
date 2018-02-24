@@ -105,7 +105,7 @@ class Tomorrow extends Component {
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
                 <div>
-                    <Link to="/form" >
+                    <Link to="/new" >
                         <FloatingActionButton 
                             style={styles.floatingActionButton} 
                             backgroundColor={pink500}
