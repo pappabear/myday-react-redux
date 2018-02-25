@@ -15,14 +15,6 @@ export function tasksIsLoading(bool) {
 }
 
 export function addTask(task) {
-	console.log('in the action now...')
-	console.log('subject=' + task.subject)
-	console.log('due_date=' + task.due_date)
-	console.log('is_complete=' + task.is_complete)
-    //return {
-    //    type: 'ADD_TASK',
-    //    payload: task
-	//};
 	return (dispatch) => {
         dispatch(tasksIsLoading(true));
 
@@ -35,7 +27,7 @@ export function addTask(task) {
 		dd = dateBuffer.getDate(); 
         mm = dateBuffer.getMonth()+1; //January is 0! 
         yyyy = dateBuffer.getFullYear(); 
-        //var tomorrowString = yyyy + '-' + mm + '-' + dd;
+        var tomorrowString = yyyy + '-' + mm + '-' + dd;
 
 		request
 		.post('http://localhost:3000/api/tasks')
@@ -49,8 +41,10 @@ export function addTask(task) {
 			dispatch(tasksIsLoading(false));
 			if (task.due_date === todayString)
 				dispatch(tasksFetchTodayData());
-			else
+			else if (task.due_date === tomorrowString)
 				dispatch(tasksFetchTomorrowData());
+			else
+				dispatch(tasksFetchWeekData());
 			})
 	}
 }
@@ -90,6 +84,27 @@ export function tasksFetchTomorrowData() {
 
 		request
 		.get('http://localhost:3000/api/tomorrow')
+		.end((err, res) => {
+			if (err) {
+				dispatch(tasksHasErrored(true));
+			}
+	  
+			const resultText = JSON.parse(res.text)
+			const tasks = resultText.data
+
+			dispatch(tasksIsLoading(false));
+			dispatch(tasksFetchDataSuccess(tasks));
+			})
+	}
+}
+
+
+export function tasksFetchWeekData() {
+	return (dispatch) => {
+        dispatch(tasksIsLoading(true));
+
+		request
+		.get('http://localhost:3000/api/week')
 		.end((err, res) => {
 			if (err) {
 				dispatch(tasksHasErrored(true));

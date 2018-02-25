@@ -35,19 +35,15 @@ class ConnectedForm extends Component {
     
     if (!isNaN(controlledDate))
     {
-      //console.log(controlledDate);
       var d = new Date(controlledDate);      
       var dd = d.getDate(); 
       var mm = d.getMonth()+1; //January is 0! 
       var yyyy = d.getFullYear(); 
       var dateString = yyyy + '-' + mm + '-' + dd;
-      //console.log(dateString);
       this.setState({ due_date: dateString });
     }
     else
     {
-      //console.log("changing " + event.target.id);
-      //console.log(" to " + event.target.value);
       this.setState({ [event.target.id]: event.target.value });
     }
   }

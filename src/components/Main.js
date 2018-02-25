@@ -6,6 +6,7 @@ import AddForm from './AddForm'
 import Home from './Home'
 import Today from './Today'
 import Tomorrow from './Tomorrow'
+import Week from './Week'
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -20,6 +21,7 @@ const Main = () => (
       <Route path='/new' component={AddForm}/>
       <Route path='/today' component={Today}/>
       <Route path='/tomorrow' component={Tomorrow}/>
+      <Route path='/week' component={Week}/>
     </Switch>
   </main>
 )

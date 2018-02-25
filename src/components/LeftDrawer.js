@@ -4,9 +4,6 @@ import {spacing, typography} from 'material-ui/styles';
 import {white, blue600} from 'material-ui/styles/colors';
 import MenuItem from 'material-ui/MenuItem';
 import {Link} from 'react-router-dom';
-//import Avatar from 'material-ui/Avatar';
-import DatePicker from 'material-ui/DatePicker';
-//import Divider from 'material-ui/Divider';
 
 const LeftDrawer = (props) => {
   let { navDrawerOpen } = props;
@@ -57,7 +54,7 @@ const LeftDrawer = (props) => {
     { text: 'Home', link: '/' },  
     { text: 'Today', link: '/today' },
     { text: 'Tomorrow', link: '/tomorrow' },
-    { text: 'AddForm*', link: '/new' },
+    { text: 'Week', link: '/week' },
   ]
   
 
@@ -81,24 +78,6 @@ const LeftDrawer = (props) => {
             />
           )}
         </div>
-
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <MenuItem
-              key={999}
-              style={styles.menuItem}
-              >
-                <DatePicker style={styles.datePickerPlaceholder}
-                            hintText="Or, choose a specific date" 
-                            hintStyle={{color:'grey'}}
-                            inputStyle={{color: 'grey'}}
-                            container="inline"
-                            locale={'en-US'} 
-                            autoOk={true}
-                            mode="landscape" />
-            </MenuItem>
-
     </Drawer>
   );
 };
