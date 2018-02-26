@@ -29,6 +29,7 @@ class Today extends Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
+        this.getSubject = this.getSubject.bind(this);
       }
 
     componentDidMount() {
@@ -49,6 +50,20 @@ class Today extends Component {
         var yyyy = dateBuffer.getFullYear(); 
         var workingDate = yyyy + '-' + mm + '-' + dd;
         return workingDate;
+    }
+
+    getSubject(task)
+    {
+        var today = this.getTodaysDate()
+        var dateBuffer = new Date(task.due_date);
+        var dd = dateBuffer.getDate(); 
+        var mm = dateBuffer.getMonth()+1; //January is 0! 
+        var yyyy = dateBuffer.getFullYear(); 
+        var dueDate = yyyy + '-' + mm + '-' + dd;
+        if (dueDate < today)
+            return task.subject + " (LATE)"
+        else
+            return task.subject
     }
 
     render() {
@@ -103,7 +118,7 @@ class Today extends Component {
                             rightIconButton={rightIconMenu}
                             >
                             <Checkbox
-                                label={task.subject}
+                                label={this.getSubject(task)}
                                 defaultChecked={task.is_complete}
                                 style={styles.checkbox}
                                 righticonbutton={rightIconMenu}
