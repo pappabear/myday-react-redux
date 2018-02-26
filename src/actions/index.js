@@ -40,11 +40,11 @@ export function addTask(task) {
 			console.log('API call succeeded')
 			dispatch(tasksIsLoading(false));
 			if (task.due_date === todayString)
-				dispatch(tasksFetchTodayData());
+				dispatch(fetchTodayTasks());
 			else if (task.due_date === tomorrowString)
-				dispatch(tasksFetchTomorrowData());
+				dispatch(fetchTomorrowTasks());
 			else
-				dispatch(tasksFetchWeekData());
+				dispatch(fetchWeekTasks());
 			})
 	}
 }
@@ -57,7 +57,7 @@ export function tasksFetchDataSuccess(tasks) {
 }
 
 
-export function tasksFetchTodayData() {
+export function fetchTodayTasks() {
 	return (dispatch) => {
         dispatch(tasksIsLoading(true));
 
@@ -78,7 +78,7 @@ export function tasksFetchTodayData() {
 }
 
 
-export function tasksFetchTomorrowData() {
+export function fetchTomorrowTasks() {
 	return (dispatch) => {
         dispatch(tasksIsLoading(true));
 
@@ -99,7 +99,7 @@ export function tasksFetchTomorrowData() {
 }
 
 
-export function tasksFetchWeekData() {
+export function fetchWeekTasks() {
 	return (dispatch) => {
         dispatch(tasksIsLoading(true));
 
@@ -116,5 +116,42 @@ export function tasksFetchWeekData() {
 			dispatch(tasksIsLoading(false));
 			dispatch(tasksFetchDataSuccess(tasks));
 			})
+	}
+}
+
+
+export function toggleTaskStatus(task) {
+	return (dispatch) => {
+        dispatch(tasksIsLoading(true));
+
+		var dateBuffer = new Date();
+        var dd = dateBuffer.getDate(); 
+        var mm = dateBuffer.getMonth()+1; //January is 0! 
+        var yyyy = dateBuffer.getFullYear(); 
+        var todayString = yyyy + '-' + mm + '-' + dd;
+		dateBuffer.setDate(dateBuffer.getDate() + 1);
+		dd = dateBuffer.getDate(); 
+        mm = dateBuffer.getMonth()+1; //January is 0! 
+        yyyy = dateBuffer.getFullYear(); 
+        var tomorrowString = yyyy + '-' + mm + '-' + dd;
+
+		request
+		.put('http://localhost:3000/api/toggleStatus/' + task.id)
+		//.send(task)
+		.end((err, res) => {
+			if (err) {
+				//console.log('API call failed')
+				dispatch(tasksHasErrored(true));
+			}
+			//console.log('API call succeeded')
+			dispatch(tasksIsLoading(false));
+
+			if (task.due_date === todayString)
+				dispatch(fetchTodayTasks());
+			else if (task.due_date === tomorrowString)
+				dispatch(fetchTomorrowTasks());
+			else
+				dispatch(fetchWeekTasks());
+		})	
 	}
 }

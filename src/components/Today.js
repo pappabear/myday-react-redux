@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { tasksFetchTodayData } from '../actions';
+import { fetchTodayTasks } from '../actions';
+import { toggleTaskStatus } from '../actions';
 import Checkbox from 'material-ui/Checkbox';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -12,7 +13,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import withWidth from 'material-ui/utils/withWidth';
-//import globalStyles from '../globalStyles';
 import QuickAddForm from './QuickAddForm';
 import {Link} from 'react-router-dom';
 
@@ -25,18 +25,35 @@ const mapStateToProps = state => {
 };
 
 class Today extends Component {
-	
+    
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+      }
+
     componentDidMount() {
         this.props.fetchTodayTasks();
     }
 
-    render() {
+    handleClick(event)
+    {
+      var task = {due_date:this.getTodaysDate(), id:event.target.id };
+      this.props.toggleTaskStatus(task)
+    }
 
+    getTodaysDate()
+    {
         var dateBuffer = new Date();
         var dd = dateBuffer.getDate(); 
         var mm = dateBuffer.getMonth()+1; //January is 0! 
         var yyyy = dateBuffer.getFullYear(); 
         var workingDate = yyyy + '-' + mm + '-' + dd;
+        return workingDate;
+    }
+
+    render() {
+
+        var workingDate = this.getTodaysDate();
         
         if (this.props.hasErrored) {
             return <p>Sorry! There was an error loading the items</p>;
@@ -87,10 +104,11 @@ class Today extends Component {
                             >
                             <Checkbox
                                 label={task.subject}
-                                //checked={task.is_complete}
+                                defaultChecked={task.is_complete}
                                 style={styles.checkbox}
                                 righticonbutton={rightIconMenu}
-                                //onClick={this.handleClick}
+                                onClick={this.handleClick}
+                                id={task.id}
                             />
                         </ListItem>
                         <Divider inset={true} />
@@ -121,11 +139,12 @@ class Today extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchTodayTasks: () => dispatch(tasksFetchTodayData())
+        toggleTaskStatus: (task) => dispatch(toggleTaskStatus(task)),
+        fetchTodayTasks: () => dispatch(fetchTodayTasks())
     };
 };
 
-//export default connect(mapStateToProps, mapDispatchToProps)(Today);
+
 const componentCreator = connect(mapStateToProps, mapDispatchToProps);
 export default withWidth()(componentCreator(Today));
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { tasksFetchTomorrowData } from '../actions';
+import { fetchTomorrowTasks } from '../actions';
+import { toggleTaskStatus } from '../actions';
 import Checkbox from 'material-ui/Checkbox';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -12,7 +13,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import withWidth from 'material-ui/utils/withWidth';
-//import globalStyles from '../globalStyles';
 import QuickAddForm from './QuickAddForm';
 import {Link} from 'react-router-dom';
 
@@ -25,20 +25,37 @@ const mapStateToProps = state => {
 };
 
 class Tomorrow extends Component {
-	
+    
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+      }
+
     componentDidMount() {
         this.props.fetchTomorrowTasks();
     }
 
-    render() {
+    handleClick(event)
+    {
+      var task = {due_date:this.getTomorrowsDate(), id:event.target.id };
+      this.props.toggleTaskStatus(task)
+    }
 
+    getTomorrowsDate()
+    {
         var dateBuffer = new Date();
         dateBuffer.setDate(dateBuffer.getDate() + 1);
         var dd = dateBuffer.getDate(); 
         var mm = dateBuffer.getMonth()+1; //January is 0! 
         var yyyy = dateBuffer.getFullYear(); 
         var workingDate = yyyy + '-' + mm + '-' + dd;
+        return workingDate;
+    }
 
+    render() {
+
+        var workingDate = this.getTomorrowsDate();
+        
         if (this.props.hasErrored) {
             return <p>Sorry! There was an error loading the items</p>;
         }
@@ -88,10 +105,11 @@ class Tomorrow extends Component {
                             >
                             <Checkbox
                                 label={task.subject}
-                                //checked={task.is_complete}
+                                defaultChecked={task.is_complete}
                                 style={styles.checkbox}
                                 righticonbutton={rightIconMenu}
-                                //onClick={this.handleClick}
+                                onClick={this.handleClick}
+                                id={task.id}
                             />
                         </ListItem>
                         <Divider inset={true} />
@@ -119,13 +137,15 @@ class Tomorrow extends Component {
     }
 }
 
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchTomorrowTasks: () => dispatch(tasksFetchTomorrowData())
+        toggleTaskStatus: (task) => dispatch(toggleTaskStatus(task)),
+        fetchTomorrowTasks: () => dispatch(fetchTomorrowTasks())
     };
 };
 
-//export default connect(mapStateToProps, mapDispatchToProps)(Tomorrow);
+
 const componentCreator = connect(mapStateToProps, mapDispatchToProps);
 export default withWidth()(componentCreator(Tomorrow));
 

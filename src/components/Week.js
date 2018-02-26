@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { tasksFetchWeekData } from '../actions';
+import { fetchWeekTasks } from '../actions';
+import { toggleTaskStatus } from '../actions';
 import Checkbox from 'material-ui/Checkbox';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -26,6 +27,7 @@ class Week extends Component {
     
     constructor(props) {
         super(props);
+        this.handleClick = this.handleClick.bind(this);
         this.renderList = this.renderList.bind(this);
         this.renderToday = this.renderToday.bind(this);
         this.renderTomorrow = this.renderTomorrow.bind(this);
@@ -36,6 +38,12 @@ class Week extends Component {
 
     componentDidMount() {
         this.props.fetchWeekTasks();
+    }
+
+    handleClick(event)
+    {
+        var task = {id:event.target.id };
+        this.props.toggleTaskStatus(task)
     }
 
     renderList(styles, rightIconMenu, header, subHeader, workingDate)
@@ -73,10 +81,11 @@ class Week extends Component {
                                     >
                                     <Checkbox
                                         label={task.subject}
-                                        //checked={task.is_complete}
+                                        defaultChecked={task.is_complete}
                                         style={styles.checkbox}
                                         righticonbutton={rightIconMenu}
-                                        //onClick={this.handleClick}
+                                        onClick={this.handleClick}
+                                        id={task.id}
                                     />
                                 </ListItem>
                                 <Divider inset={true} />
@@ -261,11 +270,12 @@ class Week extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchWeekTasks: () => dispatch(tasksFetchWeekData())
+        fetchWeekTasks: () => dispatch(fetchWeekTasks()),
+        toggleTaskStatus: (task) => dispatch(toggleTaskStatus(task)),
     };
 };
 
-//export default connect(mapStateToProps, mapDispatchToProps)(Today);
+
 const componentCreator = connect(mapStateToProps, mapDispatchToProps);
 export default withWidth()(componentCreator(Week));
 
