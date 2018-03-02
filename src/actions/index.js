@@ -155,3 +155,30 @@ export function toggleTaskStatus(task) {
 		})	
 	}
 }
+
+export function fetchTask(id) {
+	return (dispatch) => {
+        dispatch(tasksIsLoading(true));
+
+		request
+		.get('http://localhost:3000/api/tasks/'+id)
+		.end((err, res) => {
+			if (err) {
+				dispatch(tasksHasErrored(true));
+			}
+	  
+			const resultText = JSON.parse(res.text)
+			const result = resultText.data
+			var task = { id:result.id, subject:result.subject, due_date:result.due_date }
+			//console.log("ACTION")
+			//console.log("task.subject="+task.subject)
+			//console.log("task.due_date="+task.due_date)
+
+			var tasks = []
+			tasks.push(task)
+
+			dispatch(tasksIsLoading(false));
+			dispatch(tasksFetchDataSuccess(tasks));
+			})
+	}
+}
