@@ -1,13 +1,13 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { DatePicker, TextField } from 'redux-form-material-ui'
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from 'material-ui/RaisedButton'
 
 const required = value => (value == null ? 'Required' : undefined)
 
 const EditForm = props => {
 
-    const { handleSubmit, pristine, reset, submitting } = props;
+    const { handleSubmit, pristine, reset, submitting } = props
 
     const styles = {
         buttons: {
@@ -17,7 +17,7 @@ const EditForm = props => {
         saveButton: {
           marginLeft: 5
         }
-      };
+      }
   
     return (
 
@@ -59,8 +59,9 @@ const EditForm = props => {
         
         </div>
     )
-};
+}
 
 export default reduxForm({
     form: 'editForm'
-})(EditForm);
+})(EditForm)
+

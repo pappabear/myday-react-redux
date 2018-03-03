@@ -1,26 +1,60 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { fetchTask } from '../../actions'
 import SubmitHandler from "./SubmitHandler"
 import EditForm from "./EditForm"
+import withWidth from 'material-ui/utils/withWidth'
 
+const mapStateToProps = state => {
+    return { 
+      tasks: state.tasks,
+      hasErrored: state.tasksHasErrored,
+      isLoading: state.tasksIsLoading
+      }
+}
 
 class TaskEditor extends Component {
 
+    componentDidMount() 
+    {
+        this.props.fetchTask(72);
+    }
+
     render() {
     
-        const task = { subject:"hello", due_date: new Date("2018-12-25"), id:72 }
+        if (this.props.hasErrored) {
+            return <p>Sorry! There was an error loading the items</p>;
+        }
+
+        if (this.props.isLoading) {
+            return <p>Loading…</p>;
+        }
 
         return (
 
             <div>
-                <EditForm onSubmit={SubmitHandler}
-                          //task={task} 
-                          initialValues={{ subject: task.subject,
-                                           due_date: task.due_date }}
-                />
+                {this.props.tasks.map(task =>
+                    <EditForm key={task.id}
+                              onSubmit={SubmitHandler}
+                              initialValues={{ subject: task.subject,
+                                               due_date: new Date(task.due_date),
+                                               id: task.id }}
+                    />
+                )}
             </div>  
-        );
+        )
     }
 }
 
 
-export default TaskEditor;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchTask: (id) => dispatch(fetchTask(id))
+    }
+}
+
+
+const componentCreator = connect(mapStateToProps, mapDispatchToProps)
+export default withWidth()(componentCreator(TaskEditor))
+
+
