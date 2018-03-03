@@ -5,6 +5,24 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 const required = value => (value == null ? 'Required' : undefined)
 
+const validate = values => 
+{
+    const errors = {}
+
+    if (!values.subject) 
+    {
+      errors.subject = 'Required'
+    }
+
+    if (!values.due_date) 
+    {
+      errors.email = 'Required'
+    }
+    
+    return errors
+}
+
+
 const EditForm = props => {
 
     const { handleSubmit, pristine, reset, submitting } = props
@@ -62,6 +80,7 @@ const EditForm = props => {
 }
 
 export default reduxForm({
-    form: 'editForm'
+    form: 'editForm',
+    validate
 })(EditForm)
 
