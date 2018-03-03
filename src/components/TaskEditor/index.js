@@ -37,7 +37,8 @@ class TaskEditor extends Component {
             <div>
                 {this.props.tasks.map(task =>
                     <EditForm key={task.id}
-                              onSubmit={SubmitHandler}
+                              history={this.props.history}  // for redirecting after the submit action
+                              originalDueDate={task.due_date} // for redirecting after the submit action
                               initialValues={{ subject: task.subject,
                                                due_date: new Date(task.due_date),
                                                id: task.id }}

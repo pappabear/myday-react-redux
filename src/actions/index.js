@@ -19,13 +19,21 @@ export function addTask(task) {
         dispatch(tasksIsLoading(true));
 
 		var dateBuffer = new Date();
-        var dd = dateBuffer.getDate(); 
+		var dd = dateBuffer.getDate(); 
+		if (dd < 10)
+			dd = '0' + dd;
         var mm = dateBuffer.getMonth()+1; //January is 0! 
+		if (mm < 10)
+			mm = '0' + mm;
         var yyyy = dateBuffer.getFullYear(); 
         var todayString = yyyy + '-' + mm + '-' + dd;
 		dateBuffer.setDate(dateBuffer.getDate() + 1);
 		dd = dateBuffer.getDate(); 
+		if (dd < 10)
+			dd = '0' + dd;
         mm = dateBuffer.getMonth()+1; //January is 0! 
+		if (mm < 10)
+			mm = '0' + mm;
         yyyy = dateBuffer.getFullYear(); 
         var tomorrowString = yyyy + '-' + mm + '-' + dd;
 
@@ -125,13 +133,21 @@ export function toggleTaskStatus(task) {
         dispatch(tasksIsLoading(true));
 
 		var dateBuffer = new Date();
-        var dd = dateBuffer.getDate(); 
+		var dd = dateBuffer.getDate(); 
+		if (dd < 10)
+			dd = '0' + dd;
         var mm = dateBuffer.getMonth()+1; //January is 0! 
+		if (mm < 10)
+			mm = '0' + mm;
         var yyyy = dateBuffer.getFullYear(); 
         var todayString = yyyy + '-' + mm + '-' + dd;
 		dateBuffer.setDate(dateBuffer.getDate() + 1);
 		dd = dateBuffer.getDate(); 
+		if (dd < 10)
+			dd = '0' + dd;
         mm = dateBuffer.getMonth()+1; //January is 0! 
+		if (mm < 10)
+			mm = '0' + mm;
         yyyy = dateBuffer.getFullYear(); 
         var tomorrowString = yyyy + '-' + mm + '-' + dd;
 
@@ -170,15 +186,58 @@ export function fetchTask(id) {
 			const resultText = JSON.parse(res.text)
 			const result = resultText.data
 			var task = { id:result.id, subject:result.subject, due_date:result.due_date }
-			//console.log("ACTION")
-			//console.log("task.subject="+task.subject)
-			//console.log("task.due_date="+task.due_date)
 
 			var tasks = []
 			tasks.push(task)
 
 			dispatch(tasksIsLoading(false));
 			dispatch(tasksFetchDataSuccess(tasks));
+			})
+	}
+}
+
+export function updateTask(task) {
+	return (dispatch) => {
+        dispatch(tasksIsLoading(true));
+
+		var dateBuffer = new Date();
+		var dd = dateBuffer.getDate(); 
+		if (dd < 10)
+			dd = '0' + dd;
+        var mm = dateBuffer.getMonth()+1; //January is 0! 
+		if (mm < 10)
+			mm = '0' + mm;
+        var yyyy = dateBuffer.getFullYear(); 
+        var todayString = yyyy + '-' + mm + '-' + dd;
+		dateBuffer.setDate(dateBuffer.getDate() + 1);
+		dd = dateBuffer.getDate(); 
+		if (dd < 10)
+			dd = '0' + dd;
+        mm = dateBuffer.getMonth()+1; //January is 0! 
+		if (mm < 10)
+			mm = '0' + mm;
+        yyyy = dateBuffer.getFullYear(); 
+        var tomorrowString = yyyy + '-' + mm + '-' + dd;
+
+		request
+		.put('http://localhost:3000/api/tasks/' + task.id)
+		.send(task)
+		.end((err, res) => {
+			if (err) {
+				//console.log('API call failed')
+				dispatch(tasksHasErrored(true));
+			}
+			//console.log('API call succeeded')
+			dispatch(tasksIsLoading(false));
+
+			// need to refresh state here since we are redirecting to a list view!
+			if (task.due_date === todayString)
+				dispatch(fetchTodayTasks());
+			else if (task.due_date === tomorrowString)
+				dispatch(fetchTomorrowTasks());
+			else
+				dispatch(fetchWeekTasks());
+
 			})
 	}
 }
