@@ -7,13 +7,8 @@ import Home from './Home'
 import Today from './Today'
 import Tomorrow from './Tomorrow'
 import Week from './Week'
-import EditForm from './EditForm'
+import TaskEditor from './TaskEditor'
 
-// The Main component renders one of the three provided
-// Routes (provided that one matches). Both the /roster
-// and /schedule routes will match any pathname that starts
-// with /roster or /schedule. The / route will only match
-// when the pathname is exactly the string "/"
 const Main = () => (
   <main>
     <Switch>
@@ -23,7 +18,7 @@ const Main = () => (
       <Route path='/today' component={Today}/>
       <Route path='/tomorrow' component={Tomorrow}/>
       <Route path='/week' component={Week}/>
-      <Route path='/edit/:id' component={EditForm}/>
+      <Route path='/edit/:id' component={TaskEditor}/>
     </Switch>
   </main>
 )
