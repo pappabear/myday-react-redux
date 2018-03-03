@@ -17,7 +17,9 @@ class TaskEditor extends Component {
 
     componentDidMount() 
     {
-        this.props.fetchTask(72);
+        const { match: { params } } = this.props;
+        var id = `${params.id}`
+        this.props.fetchTask(id);
     }
 
     render() {
