@@ -7,7 +7,7 @@ class TaskEditor extends Component {
 
     render() {
     
-        const task = { subject:"hello", due_date: new Date("2018-12-25") }
+        const task = { subject:"hello", due_date: new Date("2018-12-25"), id:72 }
 
         return (
 
