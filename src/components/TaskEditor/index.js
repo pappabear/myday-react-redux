@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { fetchTask } from '../../actions'
-import SubmitHandler from "./SubmitHandler"
 import EditForm from "./EditForm"
 import withWidth from 'material-ui/utils/withWidth'
 

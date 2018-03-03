@@ -4,8 +4,10 @@ import { DatePicker, TextField } from 'redux-form-material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 import { updateTask } from '../../actions';
 
+// this validates the INCOMING fields
 const required = value => (value == null ? 'Required' : undefined)
 
+// this validates the REVISED fields
 const validate = values => 
 {
     const errors = {}
@@ -29,12 +31,11 @@ const submit = (values, dispatch) =>
                  subject: values.subject,
                  due_date: values.due_date }
     dispatch(updateTask(task))
-    // change url here???
 }
 
 const EditForm = props => {
 
-    const { handleSubmit, pristine, reset, submitting } = props
+    const { handleSubmit } = props
 
     const styles = {
         buttons: {
