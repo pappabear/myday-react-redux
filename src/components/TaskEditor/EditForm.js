@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { DatePicker, TextField } from 'redux-form-material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
-import { updateTask } from '../../actions';
+import { updateTask } from '../../actions'
 
 // this validates the INCOMING fields
 const required = value => (value == null ? 'Required' : undefined)

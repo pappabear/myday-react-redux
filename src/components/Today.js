@@ -15,6 +15,7 @@ import MenuItem from 'material-ui/MenuItem';
 import withWidth from 'material-ui/utils/withWidth';
 import QuickAddForm from './QuickAddForm';
 import {Link} from 'react-router-dom';
+import TaskListItemView from './TaskListItemView'
 
 const mapStateToProps = state => {
       return { 
@@ -87,26 +88,9 @@ class Today extends Component {
               left: 'auto',
               position: 'fixed',
             }
-          };
-        
-          const iconButtonElement = (
-            <IconButton
-              touch={true}
-              tooltipPosition="bottom-left"
-            >
-                <MoreVertIcon color={grey400} />
-            </IconButton>
-          );
-        
-          const rightIconMenu = (
-            <IconMenu iconButtonElement={iconButtonElement}>
-              <MenuItem primaryText="Edit" containerElement={<Link to="/login"/>}/>
-              <MenuItem primaryText="Delete" containerElement={<Link to="/login"/>}/>
-            </IconMenu>
-          );
-      
-        
-          return (
+        };
+                
+        return (
             <div>
                 
                 <h1>Today</h1>
@@ -114,19 +98,12 @@ class Today extends Component {
                 <List>
                 {this.props.tasks.map(task =>
                 <div key={task.id}>
-                        <ListItem 
-                            rightIconButton={rightIconMenu}
-                            >
-                            <Checkbox
-                                label={this.getSubject(task)}
-                                defaultChecked={task.is_complete}
-                                style={styles.checkbox}
-                                righticonbutton={rightIconMenu}
-                                onClick={this.handleClick}
-                                id={task.id}
-                            />
-                        </ListItem>
-                        <Divider inset={true} />
+                    <TaskListItemView task_id={task.id}
+                                      subject={this.getSubject(task)}
+                                      is_complete={task.is_complete}
+                                      handleClick={this.handleClick}
+                                      />
+                    <Divider inset={true} />
                 </div>
                 )}
                 </List>

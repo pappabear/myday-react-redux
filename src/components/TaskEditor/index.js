@@ -4,6 +4,19 @@ import { fetchTask } from '../../actions'
 import EditForm from "./EditForm"
 import withWidth from 'material-ui/utils/withWidth'
 
+import {pink500, grey400} from 'material-ui/styles/colors';
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import {Link} from 'react-router-dom';
+import Checkbox from 'material-ui/Checkbox';
+import { Field, reduxForm } from 'redux-form'
+import { DatePicker, TextField } from 'redux-form-material-ui'
+
+
 const mapStateToProps = state => {
     return { 
       tasks: state.tasks,
@@ -16,12 +29,11 @@ class TaskEditor extends Component {
 
     componentDidMount() 
     {
-        const { match: { params } } = this.props;
-        var id = `${params.id}`
-        this.props.fetchTask(id);
+        this.props.fetchTask(this.props.match.params.id);
     }
 
-    render() {
+    render() 
+    {
     
         if (this.props.hasErrored) {
             return <p>Sorry! There was an error loading the items</p>;
@@ -34,6 +46,7 @@ class TaskEditor extends Component {
         return (
 
             <div>
+
                 {this.props.tasks.map(task =>
                     <EditForm key={task.id}
                               history={this.props.history}  // for redirecting after the submit action
@@ -43,6 +56,19 @@ class TaskEditor extends Component {
                                                id: task.id }}
                     />
                 )}
+
+                <h3>DEBUG INFO</h3><br/>
+                <div>Querystring id passed = {this.props.match.params.id}</div><br/>
+                <div>tasks.length = {this.props.tasks.length}</div><br/>
+                
+                {this.props.tasks.map(task =>
+                    <div key={task.id}>
+                        <div>subject should be {task.subject}</div><br/>
+                        <div>id should be {task.id}</div><br/>
+                        <div>due_date should be {task.due_date}</div><br/>
+                    </div>
+                )}
+
             </div>  
         )
     }
