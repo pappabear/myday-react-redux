@@ -13,8 +13,9 @@ class EditForm extends Component {
         this.state = 
         {
             subject: this.props.subject,
-            due_date: this.props.due_date
+            due_date: this.props.due_date.split('T')[0]
         }
+        
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -47,8 +48,9 @@ class EditForm extends Component {
         event.preventDefault()
         const { subject, due_date } = this.state
         var task = {subject:subject, due_date:due_date, id:this.props.taskId }
-        this.props.updateTask(task)
-        this.props.history.push("/today")
+        console.log("submit date="+ task.due_date)
+        //this.props.updateTask(task)
+
     }
 
     render() {
@@ -99,7 +101,8 @@ class EditForm extends Component {
                     id={'due_date'}
                     name={'due_date'}
                     firstDayOfWeek={0}
-                    value={new Date(this.state.due_date)}
+                    //value={ new Date(this.state.due_date) } // display wrong date in picker!
+                    value={ new Date((new Date(this.state.due_date)).setDate((new Date(this.state.due_date)).getDate() + 1)) }
                     onChange={this.handleChange}
                 />
 
