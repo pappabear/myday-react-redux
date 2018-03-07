@@ -1,137 +1,123 @@
-import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { DatePicker, TextField } from 'redux-form-material-ui'
+import React, { Component } from "react"
 import RaisedButton from 'material-ui/RaisedButton'
-import { updateTask } from '../../actions'
+import TextField from 'material-ui/TextField'
+import DatePicker from 'material-ui/DatePicker'
+import {grey400} from 'material-ui/styles/colors'
+import {Link} from 'react-router-dom'
 
-// this validates the INCOMING fields
-const required = value => (value == null ? 'Required' : undefined)
+class EditForm extends Component {
 
-// this validates the REVISED fields
-const validate = values => 
-{
-    const errors = {}
-
-    if (!values.subject) 
+    constructor(props) 
     {
-      errors.subject = 'Required'
+        super(props)
+        this.state = 
+        {
+            subject: this.props.subject,
+            due_date: this.props.due_date
+        }
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    if (!values.due_date) 
+    handleChange(event, controlledDate) 
     {
-      errors.email = 'Required'
+
+        if (!isNaN(controlledDate))
+        {
+            var d = new Date(controlledDate)
+            var dd = d.getDate()
+            var mm = d.getMonth()+1
+            if (dd < 10)
+                dd = '0' + dd
+            if (mm < 10)
+                mm = '0' + mm
+            var yyyy = d.getFullYear()
+            var dateString = yyyy + '-' + mm + '-' + dd
+            this.setState({ due_date: dateString })
+        }
+        else
+        {
+            this.setState({ [event.target.id]: event.target.value })
+        }
+
     }
+
+    handleSubmit(event) 
+    {
+        event.preventDefault()
+        const { subject, due_date } = this.state
+        var task = {subject:subject, due_date:due_date, id:this.props.taskId }
+        this.props.updateTask(task)
+        this.props.history.push("/today")
+    }
+
+    render() {
     
-    return errors
-}
-
-const submit = (values, dispatch) =>
-{   
-    var task = { id: values.id,
-                 subject: values.subject,
-                 due_date: values.due_date }
-    dispatch(updateTask(task))
-}
-
-const EditForm = props => {
-
-    const { handleSubmit } = props
-
-    const styles = {
+        const styles = 
+        {
+        toggleDiv: {
+            maxWidth: 300,
+            marginTop: 40,
+            marginBottom: 5
+        },
+        toggleLabel: {
+            color: grey400,
+            fontWeight: 100
+        },
         buttons: {
-          marginTop: 30,
-          float: 'right'
+            marginTop: 30,
+            float: 'right'
         },
         saveButton: {
-          marginLeft: 5
+            marginLeft: 5
         }
-      }
-  
-    return (
+        }
+    
+        return (
 
-        <div>
+            <div>
 
-            <h1>Edit Task</h1>
+                <h1>Edit Task</h1>
 
-            <form onSubmit={handleSubmit(submit)}>
+                <form onSubmit={this.handleSubmit}>
 
-                <div>
-                    <Field
-                        name="subject"
-                        component={TextField}
-                        hintText="Subject"
-                        floatingLabelText="Subject"
-                        validate={required}
-                    />
-                </div>
+                <TextField
+                    hintText="Subject"
+                    floatingLabelText="Subject"
+                    fullWidth={true}
+                    id={'subject'}
+                    name={'subject'}
+                    value={this.state.subject}
+                    onChange={this.handleChange}
+                />
 
-                <div>
-                    <Field
-                        name="due_date"
-                        component={DatePicker}
-                        format={null}
-                        hintText="Due Date"
-                        floatingLabelText="Due Date"
-                        validate={required}
-                    />
-                </div>
+                <DatePicker
+                    hintText="Due Date"
+                    floatingLabelText="Due Date"
+                    autoOk={true}
+                    fullWidth={true}
+                    id={'due_date'}
+                    name={'due_date'}
+                    firstDayOfWeek={0}
+                    value={new Date(this.state.due_date)}
+                    onChange={this.handleChange}
+                />
 
                 <div style={styles.buttons}>
+                    <Link to="/today">
+                    <RaisedButton label="Cancel"/>
+                    </Link>
+
                     <RaisedButton label="Save"
                                 style={styles.saveButton}
                                 type="submit"
                                 primary={true}/>
                 </div>
+                </form>  
 
-            </form>
-        
-        </div>
-    )
+            </div>  
+        )
+    }
 }
 
-const successfulSubmitNowRedirect = (result, dispatch, props) =>
-{
-        //determine where to route to next
-        var originalDueDateOnTask = props.originalDueDate.split('T')[0]
-        
-        var dateBuffer = new Date();
-		var dd = dateBuffer.getDate(); 
-		if (dd < 10)
-			dd = '0' + dd;
-        var mm = dateBuffer.getMonth()+1; //January is 0! 
-		if (mm < 10)
-			mm = '0' + mm;
-        var yyyy = dateBuffer.getFullYear(); 
-        var todayString = yyyy + '-' + mm + '-' + dd;
-		dateBuffer.setDate(dateBuffer.getDate() + 1);
-		dd = dateBuffer.getDate(); 
-		if (dd < 10)
-			dd = '0' + dd;
-        mm = dateBuffer.getMonth()+1; //January is 0! 
-		if (mm < 10)
-			mm = '0' + mm;
-        yyyy = dateBuffer.getFullYear(); 
-        var tomorrowString = yyyy + '-' + mm + '-' + dd;
-
-        //console.log("originalDueDateOnTask="+originalDueDateOnTask)
-        //console.log("todayString="+todayString)
-        //console.log("tomorrowString="+tomorrowString)
-        
-        if (originalDueDateOnTask === todayString)
-            props.history.push("/today");
-        else if (originalDueDateOnTask === tomorrowString)
-            props.history.push("/tomorrow");
-        else
-            props.history.push("/week")
-}
-
-export default reduxForm({
-    form: 'editForm',
-    validate,
-    submit,
-    onSubmitSuccess: (result, dispatch, props) => {
-        // use this callback to handle next route
-        successfulSubmitNowRedirect(result, dispatch, props)       
-      }
-})(EditForm)
-
+export default EditForm;
