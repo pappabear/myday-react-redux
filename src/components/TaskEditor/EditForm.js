@@ -48,9 +48,36 @@ class EditForm extends Component {
         event.preventDefault()
         const { subject, due_date } = this.state
         var task = {subject:subject, due_date:due_date, id:this.props.taskId }
-        console.log("submit date="+ task.due_date)
-        //this.props.updateTask(task)
+        
+        // dispatch the update through the API
+        this.props.updateTask(task)
 
+        // redirect to the right view
+        var dateBuffer = new Date()
+		var dd = dateBuffer.getDate()
+		if (dd < 10)
+			dd = '0' + dd
+        var mm = dateBuffer.getMonth()+1; //January is 0! 
+		if (mm < 10)
+			mm = '0' + mm
+        var yyyy = dateBuffer.getFullYear()
+        var todayString = yyyy + '-' + mm + '-' + dd
+		dateBuffer.setDate(dateBuffer.getDate() + 1)
+		dd = dateBuffer.getDate()
+		if (dd < 10)
+			dd = '0' + dd
+        mm = dateBuffer.getMonth()+1; //January is 0! 
+		if (mm < 10)
+			mm = '0' + mm
+        yyyy = dateBuffer.getFullYear()
+        var tomorrowString = yyyy + '-' + mm + '-' + dd
+
+        if (task.due_date === todayString)
+            this.props.history.push("/today")
+        else if (task.due_date === tomorrowString)
+            this.props.history.push("/tomorrow")
+        else
+            this.props.history.push("/week")
     }
 
     render() {
