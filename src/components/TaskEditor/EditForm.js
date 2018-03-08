@@ -13,41 +13,59 @@ class EditForm extends Component {
         this.state = 
         {
             subject: this.props.subject,
-            due_date: this.props.due_date.split('T')[0]
+            due_date: this.props.due_date.split('T')[0],
+            subject_hasErrors: false,
+            due_date_hasErrors: false
         }
         
-        this.handleChange = this.handleChange.bind(this)
+        this.handleSubjectChange = this.handleSubjectChange.bind(this)
+        this.handleDueDateChange = this.handleDueDateChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleChange(event, controlledDate) 
+    isValid = () => {
+        if (this.state.subject === "")
+        {
+            this.setState({ subject_hasErrors: true })
+            return false
+        }
+        if (this.state.due_date === "")
+        {
+            this.setState({ due_date_hasErrors: true })
+            return false
+        }
+        return true
+    }
+
+    handleDueDateChange(event, controlledDate) 
     {
+        var d = new Date(controlledDate)
+        var dd = d.getDate()
+        var mm = d.getMonth()+1
+        if (dd < 10)
+            dd = '0' + dd
+        if (mm < 10)
+            mm = '0' + mm
+        var yyyy = d.getFullYear()
+        var dateString = yyyy + '-' + mm + '-' + dd
+        this.setState({ due_date: dateString })
+    }
 
-        if (!isNaN(controlledDate))
-        {
-            var d = new Date(controlledDate)
-            var dd = d.getDate()
-            var mm = d.getMonth()+1
-            if (dd < 10)
-                dd = '0' + dd
-            if (mm < 10)
-                mm = '0' + mm
-            var yyyy = d.getFullYear()
-            var dateString = yyyy + '-' + mm + '-' + dd
-            this.setState({ due_date: dateString })
-        }
-        else
-        {
-            this.setState({ [event.target.id]: event.target.value })
-        }
-
+    handleSubjectChange(event) 
+    {
+        this.setState({ [event.target.id]: event.target.value })
     }
 
     handleSubmit(event) 
     {
         event.preventDefault()
-        const { subject, due_date } = this.state
-        var task = {subject:subject, due_date:due_date, id:this.props.taskId }
+
+        if (!this.isValid())
+            return
+
+        var task = { subject: this.state.subject, 
+                     due_date: this.state.due_date, 
+                     id:this.props.taskId }
         
         // dispatch the update through the API
         this.props.updateTask(task)
@@ -117,7 +135,8 @@ class EditForm extends Component {
                     id={'subject'}
                     name={'subject'}
                     value={this.state.subject}
-                    onChange={this.handleChange}
+                    onChange={this.handleSubjectChange}
+                    errorText={this.state.subject_hasErrors ? 'Required' : ''}
                 />
 
                 <DatePicker
@@ -130,7 +149,8 @@ class EditForm extends Component {
                     firstDayOfWeek={0}
                     //value={ new Date(this.state.due_date) } // display wrong date in picker!
                     value={ new Date((new Date(this.state.due_date)).setDate((new Date(this.state.due_date)).getDate() + 1)) }
-                    onChange={this.handleChange}
+                    onChange={this.handleDueDateChange}
+                    errorText={this.state.due_date_hasErrors ? 'Required' : ''}
                 />
 
                 <div style={styles.buttons}>
