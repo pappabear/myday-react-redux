@@ -2,19 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchTomorrowTasks } from '../actions';
 import { toggleTaskStatus } from '../actions';
-import Checkbox from 'material-ui/Checkbox';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import {pink500, grey400} from 'material-ui/styles/colors';
-import {List, ListItem} from 'material-ui/List';
+import {pink500} from 'material-ui/styles/colors';
+import {List} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
 import withWidth from 'material-ui/utils/withWidth';
 import QuickAddForm from './QuickAddForm';
 import {Link} from 'react-router-dom';
+import TaskListItemView from './TaskListItemView'
 
 const mapStateToProps = state => {
       return { 
@@ -75,45 +71,21 @@ class Tomorrow extends Component {
             }
           };
         
-          const iconButtonElement = (
-            <IconButton
-              touch={true}
-              tooltipPosition="bottom-left"
-            >
-                <MoreVertIcon color={grey400} />
-            </IconButton>
-          );
-        
-          const rightIconMenu = (
-            <IconMenu iconButtonElement={iconButtonElement}>
-              <MenuItem primaryText="Edit" containerElement={<Link to="/login"/>}/>
-              <MenuItem primaryText="Delete" containerElement={<Link to="/login"/>}/>
-            </IconMenu>
-          );
-      
-        
-          return (
+        return (
             <div>
                 
                 <h1>Tomorrow</h1>
 
                 <List>
                 {this.props.tasks.map(task =>
-                <div key={task.id}>
-                        <ListItem 
-                            rightIconButton={rightIconMenu}
-                            >
-                            <Checkbox
-                                label={task.subject}
-                                defaultChecked={task.is_complete}
-                                style={styles.checkbox}
-                                righticonbutton={rightIconMenu}
-                                onClick={this.handleClick}
-                                id={task.id}
-                            />
-                        </ListItem>
+                    <div key={task.id}>
+                        <TaskListItemView task_id={task.id}
+                                        subject={task.subject}
+                                        is_complete={task.is_complete}
+                                        handleClick={this.handleClick}
+                                        />
                         <Divider inset={true} />
-                </div>
+                    </div>
                 )}
                 </List>
                 <p>&nbsp;</p>

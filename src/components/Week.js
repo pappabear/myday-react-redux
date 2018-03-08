@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchWeekTasks } from '../actions';
 import { toggleTaskStatus } from '../actions';
-import Checkbox from 'material-ui/Checkbox';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import {pink500, grey400} from 'material-ui/styles/colors';
-import {List, ListItem} from 'material-ui/List';
+import {List} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -14,6 +13,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import withWidth from 'material-ui/utils/withWidth';
 import {Link} from 'react-router-dom';
+import TaskListItemView from './TaskListItemView'
 
 const mapStateToProps = state => {
       return { 
@@ -76,19 +76,12 @@ class Week extends Component {
                         <List>
                         {tasks.map(task =>
                         <div key={task.id}>
-                                <ListItem 
-                                    rightIconButton={rightIconMenu}
-                                    >
-                                    <Checkbox
-                                        label={task.subject}
-                                        defaultChecked={task.is_complete}
-                                        style={styles.checkbox}
-                                        righticonbutton={rightIconMenu}
-                                        onClick={this.handleClick}
-                                        id={task.id}
-                                    />
-                                </ListItem>
-                                <Divider inset={true} />
+                            <TaskListItemView task_id={task.id}
+                                            subject={task.subject}
+                                            is_complete={task.is_complete}
+                                            handleClick={this.handleClick}
+                                            />
+                            <Divider inset={true} />
                         </div>
                         )}
                         </List>
