@@ -14,8 +14,6 @@
     "react-scripts": "1.1.1",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
-    "redux-form": "^7.3.0",
-    "redux-form-material-ui": "^4.3.3",
     "redux-thunk": "^2.2.0",
     "superagent": "^3.8.2",
     "uuid": "^3.2.1"
