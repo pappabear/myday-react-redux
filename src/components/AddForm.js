@@ -1,17 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import uuidv1 from "uuid";
 import { addTask } from "../actions/index";
 import RaisedButton from 'material-ui/RaisedButton';
-//import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
-//import SelectField from 'material-ui/SelectField';
-//import Toggle from 'material-ui/Toggle';
 import DatePicker from 'material-ui/DatePicker';
 import {grey400} from 'material-ui/styles/colors';
-//import Divider from 'material-ui/Divider';
 import {Link} from 'react-router-dom';
-//import { withRouter } from 'react-router-dom';
+
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -21,109 +16,174 @@ const mapDispatchToProps = dispatch => {
 
 class ConnectedForm extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      title: "",
-      due_date: ""
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event, controlledDate) {
-    
-    if (!isNaN(controlledDate))
+    constructor(props) 
     {
-      var d = new Date(controlledDate);      
-      var dd = d.getDate(); 
-      var mm = d.getMonth()+1; //January is 0! 
-      var yyyy = d.getFullYear(); 
-      var dateString = yyyy + '-' + mm + '-' + dd;
-      this.setState({ due_date: dateString });
+        super(props)
+        var d = new Date()
+        var dd = d.getDate()
+        var mm = d.getMonth()+1
+        if (dd < 10)
+            dd = '0' + dd
+        if (mm < 10)
+            mm = '0' + mm
+        var yyyy = d.getFullYear()
+        var dateString = yyyy + '-' + mm + '-' + dd
+
+        this.state = 
+        {
+            subject: "",
+            due_date: dateString,
+            subject_hasErrors: false,
+            due_date_hasErrors: false
+        }
+        
+        this.handleSubjectChange = this.handleSubjectChange.bind(this)
+        this.handleDueDateChange = this.handleDueDateChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
-    else
+
+    isValid = () => {
+        if (this.state.subject === "")
+        {
+            this.setState({ subject_hasErrors: true })
+            return false
+        }
+        if (this.state.due_date === "")
+        {
+            this.setState({ due_date_hasErrors: true })
+            return false
+        }
+        return true
+    }
+
+    handleDueDateChange(event, controlledDate) 
     {
-      this.setState({ [event.target.id]: event.target.value });
+        var d = new Date(controlledDate)
+        var dd = d.getDate()
+        var mm = d.getMonth()+1
+        if (dd < 10)
+            dd = '0' + dd
+        if (mm < 10)
+            mm = '0' + mm
+        var yyyy = d.getFullYear()
+        var dateString = yyyy + '-' + mm + '-' + dd
+        this.setState({ due_date: dateString })
     }
-  }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    const { subject, due_date } = this.state;
-    const id = uuidv1();
-    var task = {subject:subject, due_date:due_date, id:id, is_complete:false };
-    this.props.addTask(task);
-    this.setState({ title: "", due_date: "" });
-    this.props.history.push("/today");
-  }
+    handleSubjectChange(event) 
+    {
+        this.setState({ [event.target.id]: event.target.value })
+    }
 
-  render() {
-    
-    const styles = {
-      toggleDiv: {
-        maxWidth: 300,
-        marginTop: 40,
-        marginBottom: 5
-      },
-      toggleLabel: {
-        color: grey400,
-        fontWeight: 100
-      },
-      buttons: {
-        marginTop: 30,
-        float: 'right'
-      },
-      saveButton: {
-        marginLeft: 5
-      }
-    };
-    
-    const { subject } = this.state;
+    handleSubmit(event) 
+    {
+        event.preventDefault()
 
-    return (
+        if (!this.isValid())
+            return
 
-      <div>
+        var task = { subject: this.state.subject, 
+                     due_date: this.state.due_date,
+                     is_complete: false } 
+        
+        // dispatch the update through the API
+        this.props.addTask(task)
 
-        <h1>Add New Task</h1>
+        // redirect to the right view
+        var dateBuffer = new Date()
+        var dd = dateBuffer.getDate()
+        if (dd < 10)
+            dd = '0' + dd
+        var mm = dateBuffer.getMonth()+1; //January is 0! 
+        if (mm < 10)
+            mm = '0' + mm
+        var yyyy = dateBuffer.getFullYear()
+        var todayString = yyyy + '-' + mm + '-' + dd
+        dateBuffer.setDate(dateBuffer.getDate() + 1)
+        dd = dateBuffer.getDate()
+        if (dd < 10)
+          dd = '0' + dd
+            mm = dateBuffer.getMonth()+1; //January is 0! 
+        if (mm < 10)
+          mm = '0' + mm
+            yyyy = dateBuffer.getFullYear()
+            var tomorrowString = yyyy + '-' + mm + '-' + dd
 
-        <form onSubmit={this.handleSubmit}>
+        if (task.due_date === todayString)
+            this.props.history.push("/today")
+        else if (task.due_date === tomorrowString)
+            this.props.history.push("/tomorrow")
+        else
+            this.props.history.push("/week")
+    }
 
-          <TextField
-            hintText="Subject"
-            floatingLabelText="Subject"
-            fullWidth={true}
-            id={'subject'}
-            name={'subject'}
-            value={subject}
-            onChange={this.handleChange}
-          />
+    render() {
+  
+        const styles = 
+        {
+        toggleDiv: {
+            maxWidth: 300,
+            marginTop: 40,
+            marginBottom: 5
+        },
+        toggleLabel: {
+            color: grey400,
+            fontWeight: 100
+        },
+        buttons: {
+            marginTop: 30,
+            float: 'right'
+        },
+        saveButton: {
+            marginLeft: 5
+        }
+        }
+  
+        return (
 
-          <DatePicker
-            hintText="Due Date"
-            floatingLabelText="Due Date"
-            autoOk={true}
-            fullWidth={true}
-            id={'due_date'}
-            name={'due_date'}
-            firstDayOfWeek={0}
-            onChange={this.handleChange}
-        />
+            <div>
 
-          <div style={styles.buttons}>
-            <Link to="/today">
-              <RaisedButton label="Cancel"/>
-            </Link>
+                <h1>Add a New Task</h1>
 
-            <RaisedButton label="Save"
-                          style={styles.saveButton}
-                          type="submit"
-                          primary={true}/>
-          </div>
-        </form>  
+                <form onSubmit={this.handleSubmit}>
 
-      </div>  
-);
+                    <TextField
+                        hintText="Subject"
+                        floatingLabelText="Subject"
+                        fullWidth={true}
+                        id={'subject'}
+                        name={'subject'}
+                        value={this.state.subject}
+                        onChange={this.handleSubjectChange}
+                        errorText={this.state.subject_hasErrors ? 'Required' : ''}
+                    />
+
+                    <DatePicker
+                        hintText="Due Date"
+                        floatingLabelText="Due Date"
+                        autoOk={true}
+                        fullWidth={true}
+                        id={'due_date'}
+                        name={'due_date'}
+                        firstDayOfWeek={0}
+                        value={ new Date(this.state.due_date) } 
+                        onChange={this.handleDueDateChange}
+                        errorText={this.state.due_date_hasErrors ? 'Required' : ''}
+                    />
+
+                    <div style={styles.buttons}>
+                        <Link to="/today">
+                        <RaisedButton label="Cancel"/>
+                        </Link>
+
+                        <RaisedButton label="Save"
+                                    style={styles.saveButton}
+                                    type="submit"
+                                    primary={true}/>
+                    </div>
+                </form>  
+          </div>  
+      )
   }
 }
 
