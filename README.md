@@ -6,9 +6,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Installation
 
-Get the simple [Node API](https://github.com/pappabear/myday-node-api) running.
-`yarn install`
-`yarn start`
+- Get the simple [Node API](https://github.com/pappabear/myday-node-api) running.
+- `yarn install`
+- `yarn start`
 
 ## Inspired by:
 
