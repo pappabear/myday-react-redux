@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchTodayTasks } from '../actions';
 import { toggleTaskStatus } from '../actions';
+import { deleteTask } from  '../actions'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { pink500 } from 'material-ui/styles/colors';
@@ -23,9 +24,10 @@ const mapStateToProps = state => {
 class Today extends Component {
     
     constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-        this.getSubject = this.getSubject.bind(this);
+        super(props)
+        this.handleClick = this.handleClick.bind(this)
+        this.getSubject = this.getSubject.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
       }
 
     componentDidMount() {
@@ -34,8 +36,14 @@ class Today extends Component {
 
     handleClick(event)
     {
-      var task = {due_date:this.getTodaysDate(), id:event.target.id };
-      this.props.toggleTaskStatus(task)
+        var task = {due_date:this.getTodaysDate(), id:event.target.id }
+        this.props.toggleTaskStatus(task)
+    }
+
+    handleDelete(id)
+    {
+        //console.log("handle delete event fired with id="+id)
+        this.props.deleteTask(id)
     }
 
     getTodaysDate()
@@ -97,6 +105,7 @@ class Today extends Component {
                                       subject={this.getSubject(task)}
                                       is_complete={task.is_complete}
                                       handleClick={this.handleClick}
+                                      handleDelete={this.handleDelete}
                                       />
                     <Divider inset={true} />
                 </div>
@@ -127,11 +136,12 @@ class Today extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         toggleTaskStatus: (task) => dispatch(toggleTaskStatus(task)),
-        fetchTodayTasks: () => dispatch(fetchTodayTasks())
-    };
-};
+        fetchTodayTasks: () => dispatch(fetchTodayTasks()),
+        deleteTask: (id) => dispatch(deleteTask(id))
+    }
+}
 
 
-const componentCreator = connect(mapStateToProps, mapDispatchToProps);
-export default withWidth()(componentCreator(Today));
+const componentCreator = connect(mapStateToProps, mapDispatchToProps)
+export default withWidth()(componentCreator(Today))
 

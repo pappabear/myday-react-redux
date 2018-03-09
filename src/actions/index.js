@@ -42,10 +42,10 @@ export function addTask(task) {
 		.send(task)
 		.end((err, res) => {
 			if (err) {
-				console.log('API call failed')
+				//console.log('API call failed')
 				dispatch(tasksHasErrored(true));
 			}
-			console.log('API call succeeded')
+			//console.log('API call succeeded')
 			dispatch(tasksIsLoading(false));
 			if (task.due_date === todayString)
 				dispatch(fetchTodayTasks());
@@ -238,6 +238,64 @@ export function updateTask(task) {
 			else
 				dispatch(fetchWeekTasks());
 
+			})
+	}
+}
+
+export function deleteTask(id) {
+	return (dispatch) => {
+        dispatch(tasksIsLoading(true));
+
+		request
+		.get('http://localhost:3000/api/tasks/'+id)
+		.end((err, res) => {
+			if (err) {
+				dispatch(tasksHasErrored(true));
+			}
+	  
+			const resultText = JSON.parse(res.text)
+			const result = resultText.data
+			var taskDueDate = new Date(result.due_date.split('T')[0])
+
+			var dateBuffer = new Date();
+			var dd = dateBuffer.getDate(); 
+			if (dd < 10)
+				dd = '0' + dd;
+			var mm = dateBuffer.getMonth()+1; //January is 0! 
+			if (mm < 10)
+				mm = '0' + mm;
+			var yyyy = dateBuffer.getFullYear(); 
+			var todayString = yyyy + '-' + mm + '-' + dd;
+			dateBuffer.setDate(dateBuffer.getDate() + 1);
+			dd = dateBuffer.getDate(); 
+			if (dd < 10)
+				dd = '0' + dd;
+			mm = dateBuffer.getMonth()+1; //January is 0! 
+			if (mm < 10)
+				mm = '0' + mm;
+			yyyy = dateBuffer.getFullYear(); 
+			var tomorrowString = yyyy + '-' + mm + '-' + dd;
+
+			request
+			.delete('http://localhost:3000/api/tasks/' + id)
+			//.send(task)
+			.end((err, res) => {
+				if (err) {
+					console.log('API call failed')
+					dispatch(tasksHasErrored(true));
+				}
+				console.log('API call succeeded')
+				dispatch(tasksIsLoading(false));
+
+				// need to refresh state here since we are redirecting to a list view!
+				if (taskDueDate === todayString)
+					dispatch(fetchTodayTasks());
+				else if (taskDueDate === tomorrowString)
+					dispatch(fetchTomorrowTasks());
+				else
+					dispatch(fetchWeekTasks());
+
+				})
 			})
 	}
 }

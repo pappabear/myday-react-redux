@@ -11,6 +11,16 @@ import {Link} from 'react-router-dom'
 
 class TaskListItemView extends Component {
 
+    constructor(props) {
+        super(props)
+        this.handleDeleteClick = this.handleDeleteClick.bind(this)
+    }
+
+    handleDeleteClick(id)
+    {
+        this.props.handleDelete(id);
+    }
+
     render() {
         
         const iconButtonElement = (
@@ -25,7 +35,7 @@ class TaskListItemView extends Component {
         const rightIconMenu = (
             <IconMenu iconButtonElement={iconButtonElement}>
               <MenuItem primaryText="Edit" containerElement={<Link to={`/edit/${this.props.task_id}`} />}/>
-              <MenuItem primaryText="Delete" containerElement={<Link to="/login"/>}/>
+              <MenuItem primaryText="Delete" onClick={ () => this.props.handleDelete(this.props.task_id) }  />
             </IconMenu>
           );
       
