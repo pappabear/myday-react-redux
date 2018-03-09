@@ -22,9 +22,8 @@ https://medium.com/@stowball/a-dummys-guide-to-redux-and-thunk-in-react-d8904a70
 - need to DRY out /today /tomorrow views
 - need to reorganize into containers and components directories
 - feature: %complete on /today based on S, M, L, XL sizing
-- epic: Add users, authentication, authorization
-- need to add authorization and authentication
-- feature: Add Recurrence to tasks
+- epic: add users, authentication, authorization
+- feature: add "recurrence" to tasks
 - need to add "home" content - maybe a dashboard of tasks/day, efficiency vs plan, etc
 - feature: Settings
 - material-ui does not support sorting
